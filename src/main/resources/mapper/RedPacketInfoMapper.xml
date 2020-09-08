@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cyb.ybmobileredis.mapper.RedPacketInfoMapper">
+    <insert id="insert" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
+        insert into red_packet_info (red_packet_id, total_amount,
+        total_packet, remaining_amount,
+        remaining_packet, uid,
+        create_time, update_time)
+        values (#{redPacketId,jdbcType=BIGINT}, #{totalAmount,jdbcType=INTEGER},
+        #{totalPacket,jdbcType=INTEGER}, #{remainingAmount,jdbcType=INTEGER},
+        #{remainingPacket,jdbcType=INTEGER}, #{uid,jdbcType=INTEGER},
+        #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP})
+    </insert>
+    <update id="updatePacketInfo">
+        update red_packet_info set total_amount = total_amount - #{amount,jdbcType=INTEGER},
+        total_packet = total_packet - 1 where red_packet_id = #{redPacketId,jdbcType=BIGINT}
+    </update>
+    <select id="getPacketInfoByPacketId" resultType="com.cyb.ybmobileredis.domain.RedPacketInfo">
+        select * from red_packet_info where red_packet_id = #{redPacketId,jdbcType=BIGINT}
+    </select>
+</mapper>
